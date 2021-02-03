@@ -10,8 +10,10 @@ export class Ball2D{
     angle: number = 0;
     vx: number = 0;
     vy: number =0; 
+    isMoving: boolean;
 
-    constructor(object: MouseEvent) {
+
+    constructor(object?) {
         this.ballRadius = BALL_RADIUS; 
         this.positionX = object.offsetX;
         this.positionY = object.offsetY;
@@ -20,6 +22,7 @@ export class Ball2D{
         this.vx = this.speed;
         this.vy = this.speed;
         this.angle = RandomGeneratorService.getRandomAngle();
+        this.isMoving = true;
     }
 
 }

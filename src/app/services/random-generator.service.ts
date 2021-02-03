@@ -21,10 +21,9 @@ private static MIN_SPEED: number = -10;
       return randomSpeed;
     }
     this.getRandomSpeed();
-
   }
 
   static getRandomAngle(): number {
-    return Math.random() * Math.PI/2;
+    return Math.random() * Math.PI;
   }
 }

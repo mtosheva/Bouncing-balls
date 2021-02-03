@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BALL_RADIUS, BOUNCE, FRICTION, GRAVITY } from '../app.constants';
 import { Ball2D  } from '../models/ball2D.model';
+import { PhysicsCalculationsService } from './physics-calculations.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,41 +10,49 @@ export class BallService {
 
   constructor() {}
 
-  updateBall(ball: Ball2D,width,height) : void{
+  checkCollisionsWithWalls(ball: Ball2D, width: number, height: number) : void {
    
     //bottom wall
-    if (this.isBottomWallHit(ball, height)) {
+    if (PhysicsCalculationsService.isBottomWallHit(ball, height)) {
       ball.vy *= - BOUNCE;
       ball.positionY = height - ball.ballRadius;
       ball.vx *= FRICTION;
     }
 
     // top wall
-    if (this.isTopWallHit(ball)) {
+    if (PhysicsCalculationsService.isTopWallHit(ball)) {
       ball.vy *= - BOUNCE;
       ball.positionY = ball.ballRadius;
       ball.vx *= FRICTION;
     }
 
     // left wall
-    if (this.isLeftWallHit(ball)) {
+    if (PhysicsCalculationsService.isLeftWallHit(ball)) {
       ball.vx *= - BOUNCE;
       ball.positionX = ball.ballRadius;
     }
     // right wall
-    if (this.isRightWallHit(ball, width)) {
+    if (PhysicsCalculationsService.isRightWallHit(ball, width)) {
       ball.vx *= - BOUNCE;
       ball.positionX = width - ball.ballRadius;
     }
 
     // reset insignificant amounts to 0
-    if (this.isVelocityIncegnificant(ball.vx)) {
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.vx)) {
       ball.vx = 0;
     }
-    if (this.isVelocityIncegnificant(ball.vy)) {
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.vy)) {
       ball.vy = 0;
     }
 
+    if(ball.vx == 0 && ball.vy ==0) {
+      ball.isMoving = false;
+    }
+
+  }
+
+  updateBall(ball: Ball2D): void{
+    
     // add gravity
     ball.vy += GRAVITY
 
@@ -53,27 +62,6 @@ export class BallService {
 
   }
 
-  isBottomWallHit(ball: Ball2D, height: number) : boolean {
-    return ball.positionY + ball.ballRadius + GRAVITY >= height;
-  }
-
-  isTopWallHit(ball: Ball2D) : boolean {
-    return ball.positionY - ball.ballRadius <= 0;
-  }
-
-  isLeftWallHit(ball: Ball2D) : boolean {
-    return ball.positionX - ball.ballRadius <= 0;
-  }
-
-  isRightWallHit(ball: Ball2D, width: number) : boolean {
-    return ball.positionX + ball.ballRadius >= width;
-  }
-
-  isVelocityIncegnificant(velocity: number){
-    return velocity < 0.01 && velocity > -0.01;
-  }
-
-
   //collisions between balls are recalculated for each ball;
   //this functions is heavy, if there are too many balls the screen will slow down it should be optimized for real use
   checkCollisions(balls: Array<Ball2D>){
@@ -82,8 +70,8 @@ export class BallService {
       for(let j = i+1; j < balls.length;j++) {
         let circle1 = balls[i];
         let circle2 = balls[j]
-        let isCollading = this.areCirclesIntersecting(circle1,circle2);
-        if(isCollading) {
+        let areColliding = PhysicsCalculationsService.areCirclesIntersecting(circle1,circle2);
+        if(areColliding) {
        
           //collision vector
           let vCollision = {
@@ -92,7 +80,7 @@ export class BallService {
           };
         
           //calculate the distance of the colliding vector
-          let distance = this.calculateDistanceOfCollidingVecor(circle1,circle2);
+          let distance = PhysicsCalculationsService.calculateDistanceOfCollidingVector(circle1,circle2);
         
           //calculate normized vector
           let vCollisionNorm = {
@@ -101,10 +89,13 @@ export class BallService {
           };
 
           //relative velocity of the objects
-          let vRelativeVelocity = { x: circle1.vx - circle2.vx, y: circle1.vy - circle2.vy };
+          let vRelativeVelocity = { 
+            x: circle1.vx - circle2.vx, 
+            y: circle1.vy - circle2.vy 
+          };
 
           //calculate collision speed
-          let speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
+          let speed = PhysicsCalculationsService.calculateCollisionSpeed(vCollisionNorm, vRelativeVelocity)
 
 
           //if the speed is negative objects are moving away from each other and there is no need to calculate velocity
@@ -124,13 +115,4 @@ export class BallService {
 
   }
 
-  calculateDistanceOfCollidingVecor(circle1: Ball2D, circle2: Ball2D): number {
-    return Math.sqrt((circle2.positionX-circle1.positionX)*(circle2.positionX-circle1.positionX) + (circle2.positionY-circle1.positionY)*(circle2.positionY-circle1.positionY));
-  }
-
-  //check if two circles intersect
-  areCirclesIntersecting(circle1: Ball2D,circle2: Ball2D) : boolean{
-    let circlesDistance = (circle1.positionX - circle2.positionX)*(circle1.positionX - circle2.positionX) + (circle1.positionY - circle2.positionY)*(circle1.positionY - circle2.positionY)
-    return circlesDistance <= ((circle1.ballRadius+ circle2.ballRadius) * (circle1.ballRadius + circle2.ballRadius));
-  }
 }

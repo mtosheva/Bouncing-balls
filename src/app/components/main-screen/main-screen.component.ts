@@ -10,22 +10,20 @@ import { BallService } from 'src/app/services/ball.service';
 export class MainScreenComponent implements OnInit {
 
   @ViewChild('canvas',{static:true}) canvas: ElementRef<HTMLCanvasElement>;
-  private canvasRenderingContext: CanvasRenderingContext2D;
-  private balls: Array<Ball2D> = new Array;
+  canvasRenderingContext: CanvasRenderingContext2D;
+  balls: Array<Ball2D> = new Array;
 
   constructor(private _ballService: BallService) {
 
    }
 
   ngOnInit(): void {
-
     this.canvasRenderingContext = this.canvas.nativeElement.getContext('2d');
-    this.canvasRenderingContext.canvas.width = document.documentElement.scrollWidth;
-    this.canvasRenderingContext.canvas.height = document.documentElement.scrollHeight;
+    this.canvasRenderingContext.canvas.width = window.innerWidth;
+    this.canvasRenderingContext.canvas.height = window.innerHeight;
     setInterval((): void =>{
       this.updateBalls();
     },20);
-
   }
 
   addBall(clickEvent) : void {
@@ -37,18 +35,22 @@ export class MainScreenComponent implements OnInit {
   updateBalls(): void{
     this.canvasRenderingContext.clearRect(0, 0, this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
 
-    this.balls.forEach(x=>{
+    this.balls.forEach(ball=>{
 
-      if(x.vy!=0 && x.vx!= 0){
+      if(ball.isMoving){
+      
+        this._ballService.checkCollisionsWithWalls(ball,this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
         
-
+        //if there is more than one ball check for collisions
         if(this.balls.length>1){
           this._ballService.checkCollisions(this.balls);
         }
-        this._ballService.updateBall(x,this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
-     }
 
-      this.drawBall(x);
+        this._ballService.updateBall(ball);
+
+      }
+
+      this.drawBall(ball);
  });
   }
 
