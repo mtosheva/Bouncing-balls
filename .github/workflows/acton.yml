@@ -1,4 +1,4 @@
-name: Github Actions Example
+name: Build and Run tests
 
 on:
   pull_request:
