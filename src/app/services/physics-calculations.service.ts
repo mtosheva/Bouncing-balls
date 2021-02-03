@@ -10,12 +10,12 @@ export class PhysicsCalculationsService {
   constructor() { }
 
   static areCirclesIntersecting(circle1: Ball2D,circle2: Ball2D) : boolean{
-    let circlesDistance = (circle1.positionX - circle2.positionX)*(circle1.positionX - circle2.positionX) + (circle1.positionY - circle2.positionY)*(circle1.positionY - circle2.positionY)
-    return circlesDistance <= ((circle1.ballRadius+ circle2.ballRadius) * (circle1.ballRadius + circle2.ballRadius));
+    let circlesDistance = (circle1.point.positionX - circle2.point.positionX)*(circle1.point.positionX - circle2.point.positionX) + (circle1.point.positionY - circle2.point.positionY)*(circle1.point.positionY - circle2.point.positionY)
+    return circlesDistance <= ((circle1.radius+ circle2.radius) * (circle1.radius + circle2.radius));
   }
 
   static calculateDistanceOfCollidingVector(circle1: Ball2D, circle2: Ball2D): number {
-    return Math.sqrt((circle2.positionX-circle1.positionX)*(circle2.positionX-circle1.positionX) + (circle2.positionY-circle1.positionY)*(circle2.positionY-circle1.positionY));
+    return Math.sqrt((circle2.point.positionX-circle1.point.positionX)*(circle2.point.positionX-circle1.point.positionX) + (circle2.point.positionY-circle1.point.positionY)*(circle2.point.positionY-circle1.point.positionY));
   }
 
   static calculateCollisionSpeed(vCollisionNorm: any, vRelativeVelocity: any) : number{
@@ -23,19 +23,19 @@ export class PhysicsCalculationsService {
   }
 
   static isBottomWallHit(ball: Ball2D, height: number) : boolean {
-    return ball.positionY + ball.ballRadius + GRAVITY>= height;
+    return ball.point.positionY + ball.radius + GRAVITY>= height;
   }
 
   static isTopWallHit(ball: Ball2D) : boolean {
-    return ball.positionY - ball.ballRadius <= 0;
+    return ball.point.positionY - ball.radius <= 0;
   }
 
   static isLeftWallHit(ball: Ball2D) : boolean {
-    return ball.positionX - ball.ballRadius <= 0;
+    return ball.point.positionX - ball.radius <= 0;
   }
 
   static isRightWallHit(ball: Ball2D, width: number) : boolean {
-    return ball.positionX + ball.ballRadius >= width;
+    return ball.point.positionX + ball.radius >= width;
   }
 
   static isVelocityIncegnificant(velocity: number){

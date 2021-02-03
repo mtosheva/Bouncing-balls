@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { RandomGeneratorService } from './random-generator.service';
 
-describe('RandomGeneratorService', () => {
+fdescribe('RandomGeneratorService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({})
 
@@ -44,5 +44,7 @@ describe('RandomGeneratorService', () => {
     let angle = RandomGeneratorService.getRandomAngle();
     expect(angle).toEqual(2.827433388230814);
   });
+
+
 
 });

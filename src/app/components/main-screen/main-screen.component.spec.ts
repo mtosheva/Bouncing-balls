@@ -2,7 +2,7 @@ import { not } from '@angular/compiler/src/output/output_ast';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Ball2D } from 'src/app/models/ball2D.model';
+import { Ball2D, Point } from 'src/app/models/ball2D.model';
 import { BallService } from 'src/app/services/ball.service';
 
 import { MainScreenComponent } from './main-screen.component';
@@ -87,20 +87,15 @@ describe('MainScreenComponent', () => {
 
   it('if ball is not moving should draw ball with old points - no calculation of new point and speed', () => {
 
-    let ballObj = {
-      offsetX: 10,
-      offsetY: 10,
-    }
-    let circle1 = new Ball2D(ballObj);
-
-    circle1.vx = 0;
-    circle1.vy = 0;
-    circle1.isMoving = false;
-
+    let point: Point = new Point(10,10);
+    let ball1 = new Ball2D(point);
+    ball1.speed.vx = 0;
+    ball1.speed.vy = 0;
+    ball1.isMoving = false;
     spyOn(component, 'drawBall');
 
     fixture.detectChanges();
-    component.balls.push(circle1);
+    component.balls.push(ball1);
 
     component.updateBalls();
 
@@ -108,29 +103,25 @@ describe('MainScreenComponent', () => {
     expect(ballsService.checkCollisions).not.toHaveBeenCalled();
     expect(ballsService.updateBall).not.toHaveBeenCalled();
 
-    expect(component.balls[0].positionX).toEqual(10);
-    expect(component.balls[0].positionY).toEqual(10);
-    expect(component.balls[0].vx).toEqual(0);
-    expect(component.balls[0].vy).toEqual(0);
+    expect(component.balls[0].point.positionX).toEqual(10);
+    expect(component.balls[0].point.positionY).toEqual(10);
+    expect(component.balls[0].speed.vx).toEqual(0);
+    expect(component.balls[0].speed.vy).toEqual(0);
 
     expect(component.drawBall).toHaveBeenCalledTimes(1);
   });
 
   it('if ball is moving should redraw ball with new points', () => {
 
-    let ballObj = {
-      offsetX: 10,
-      offsetY: 10,
-    }
-    let circle1 = new Ball2D(ballObj);
-
-    circle1.vx = 1;
-    circle1.vy = 1;
-    circle1.isMoving = true;
+    let point: Point = new Point(10,10);
+    let ball1 = new Ball2D(point);
+    ball1.speed.vx = 0;
+    ball1.speed.vy = 0;
+    ball1.isMoving = true;
 
     spyOn(component, 'drawBall');
 
-    component.balls.push(circle1);
+    component.balls.push(ball1);
     component.updateBalls();
     fixture.detectChanges();
 
@@ -142,17 +133,13 @@ describe('MainScreenComponent', () => {
 
   it('checkCollisions should not be called if only one ball is in the canvas', () => {
 
-    let ballObj = {
-      offsetX: 10,
-      offsetY: 10,
-    }
-    let circle1 = new Ball2D(ballObj);
+    let point: Point = new Point(10,10);
+    let ball1 = new Ball2D(point);
+    ball1.speed.vx = 0;
+    ball1.speed.vy = 0;
+    ball1.isMoving = true;
 
-    circle1.vx = 1;
-    circle1.vy = 1;
-    circle1.isMoving = true;
-
-    component.balls.push(circle1);
+    component.balls.push(ball1);
     component.updateBalls();
 
     expect(ballsService.checkCollisions).not.toHaveBeenCalled();
@@ -161,24 +148,20 @@ describe('MainScreenComponent', () => {
 
   it('checkCollisions should be called if more than one ball is in the canvas', () => {
 
-    let ballObj = {
-      offsetX: 10,
-      offsetY: 10,
-    }
-    let circle2 = new Ball2D(ballObj);
+    let point1: Point = new Point(10,10);
+    let ball1 = new Ball2D(point1);
+    ball1.speed.vx = 0;
+    ball1.speed.vy = 0;
+    ball1.isMoving = true;
 
-    circle2.vx = 1;
-    circle2.vy = 1;
-    circle2.isMoving = true;
+    let point2: Point = new Point(20,20);
+    let ball2 = new Ball2D(point2);
+    ball1.speed.vx = 0;
+    ball1.speed.vy = 0;
+    ball1.isMoving = true;
 
-    let circle1 = new Ball2D(ballObj);
-
-    circle1.vx = 1;
-    circle1.vy = 1;
-    circle1.isMoving = true;
-
-    component.balls.push(circle1);
-    component.balls.push(circle1);
+    component.balls.push(ball1);
+    component.balls.push(ball2);
 
     component.updateBalls();
 

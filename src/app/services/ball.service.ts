@@ -14,38 +14,38 @@ export class BallService {
    
     //bottom wall
     if (PhysicsCalculationsService.isBottomWallHit(ball, height)) {
-      ball.vy *= - BOUNCE;
-      ball.positionY = height - ball.ballRadius;
-      ball.vx *= FRICTION;
+      ball.speed.vy *= - BOUNCE;
+      ball.point.positionY = height - ball.radius;
+      ball.speed.vx *= FRICTION;
     }
 
     // top wall
     if (PhysicsCalculationsService.isTopWallHit(ball)) {
-      ball.vy *= - BOUNCE;
-      ball.positionY = ball.ballRadius;
-      ball.vx *= FRICTION;
+      ball.speed.vy *= - BOUNCE;
+      ball.point.positionY = ball.radius;
+      ball.speed.vx *= FRICTION;
     }
 
     // left wall
     if (PhysicsCalculationsService.isLeftWallHit(ball)) {
-      ball.vx *= - BOUNCE;
-      ball.positionX = ball.ballRadius;
+      ball.speed.vx *= - BOUNCE;
+      ball.point.positionX = ball.radius;
     }
     // right wall
     if (PhysicsCalculationsService.isRightWallHit(ball, width)) {
-      ball.vx *= - BOUNCE;
-      ball.positionX = width - ball.ballRadius;
+      ball.speed.vx *= - BOUNCE;
+      ball.point.positionX = width - ball.radius;
     }
 
     // reset insignificant amounts to 0
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.vx)) {
-      ball.vx = 0;
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vx)) {
+      ball.speed.vx = 0;
     }
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.vy)) {
-      ball.vy = 0;
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vy)) {
+      ball.speed.vy = 0;
     }
 
-    if(ball.vx == 0 && ball.vy ==0) {
+    if(ball.speed.vx == 0 && ball.speed.vy ==0) {
       ball.isMoving = false;
     }
 
@@ -54,11 +54,11 @@ export class BallService {
   updateBall(ball: Ball2D): void{
     
     // add gravity
-    ball.vy += GRAVITY
+    ball.speed.vy += GRAVITY
 
     // update ball position
-    ball.positionX += ball.vx;
-    ball.positionY += ball.vy;
+    ball.point.positionX += ball.speed.vx;
+    ball.point.positionY += ball.speed.vy;
 
   }
 
@@ -75,8 +75,8 @@ export class BallService {
        
           //collision vector
           let vCollision = {
-            x: circle2.positionX - circle1.positionX, 
-            y: circle2.positionY - circle1.positionY
+            x: circle2.point.positionX - circle1.point.positionX, 
+            y: circle2.point.positionY - circle1.point.positionY
           };
         
           //calculate the distance of the colliding vector
@@ -90,8 +90,8 @@ export class BallService {
 
           //relative velocity of the objects
           let vRelativeVelocity = { 
-            x: circle1.vx - circle2.vx, 
-            y: circle1.vy - circle2.vy 
+            x: circle1.speed.vx - circle2.speed.vx, 
+            y: circle1.speed.vy - circle2.speed.vy 
           };
 
           //calculate collision speed
@@ -104,10 +104,10 @@ export class BallService {
           }
 
           //if the balls are moving towards each other add the speed in the direction of the collision
-          circle1.vx -= (speed * vCollisionNorm.x);
-          circle1.vy -= (speed * vCollisionNorm.y);
-          circle2.vx += (speed * vCollisionNorm.x);
-          circle2.vy += (speed * vCollisionNorm.y);
+          circle1.speed.vx -= (speed * vCollisionNorm.x);
+          circle1.speed.vy -= (speed * vCollisionNorm.y);
+          circle2.speed.vx += (speed * vCollisionNorm.x);
+          circle2.speed.vy += (speed * vCollisionNorm.y);
         }
 
       }

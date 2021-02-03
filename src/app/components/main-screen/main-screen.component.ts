@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Ball2D } from 'src/app/models/ball2D.model';
+import { Ball2D, Point } from 'src/app/models/ball2D.model';
 import { BallService } from 'src/app/services/ball.service';
 
 @Component({
@@ -24,10 +24,24 @@ export class MainScreenComponent implements OnInit {
     setInterval((): void =>{
       this.updateBalls();
     },20);
+    this.canvasRenderingContext.save();
+    this.canvasRenderingContext.beginPath();
+    this.canvasRenderingContext.arc(10, 10, 10, 0, Math.PI*2);
+    this.canvasRenderingContext.fillStyle = 'red';    
+    this.canvasRenderingContext.fill();
+    this.canvasRenderingContext.restore();
+
+    this.canvasRenderingContext.save();
+    this.canvasRenderingContext.beginPath();
+    this.canvasRenderingContext.arc(30, 10, 10, 0, Math.PI*2);
+    this.canvasRenderingContext.fillStyle = 'green';    
+    this.canvasRenderingContext.fill();
+    this.canvasRenderingContext.restore();
   }
 
-  addBall(clickEvent) : void {
-    const ball = new Ball2D(clickEvent);
+  addBall(clickEvent: MouseEvent) : void {
+    let point : Point = new Point(clickEvent.offsetX, clickEvent.offsetY);
+    const ball = new Ball2D(point);
     this.balls.push(ball); 
   }
 
@@ -57,7 +71,7 @@ export class MainScreenComponent implements OnInit {
   drawBall(ball: Ball2D): void{
     this.canvasRenderingContext.save();
     this.canvasRenderingContext.beginPath();
-    this.canvasRenderingContext.arc(ball.positionX, ball.positionY, ball.ballRadius, 0, Math.PI*2);
+    this.canvasRenderingContext.arc(ball.point.positionX, ball.point.positionY, ball.radius, 0, Math.PI*2);
     this.canvasRenderingContext.fillStyle = ball.color;    
     this.canvasRenderingContext.fill();
     this.canvasRenderingContext.restore();
