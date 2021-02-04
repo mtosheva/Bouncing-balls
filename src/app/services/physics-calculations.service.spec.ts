@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Ball2D, Point } from '../models/ball2D.model';
+import { Ball2D } from '../models/ball2D.model';
+import { Point } from '../models/point.model';
 
 import { PhysicsCalculationsService } from './physics-calculations.service';
 

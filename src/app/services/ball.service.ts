@@ -37,7 +37,6 @@ export class BallService {
       ball.point.positionX = width - ball.radius;
     }
 
-
   }
 
   updateBallPosition(ball: Ball2D): void{

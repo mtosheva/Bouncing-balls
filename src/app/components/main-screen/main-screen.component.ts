@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Ball2D, Point } from 'src/app/models/ball2D.model';
+import { Ball2D } from 'src/app/models/ball2D.model';
+import { Point } from 'src/app/models/point.model';
 import { BallService } from 'src/app/services/ball.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class MainScreenComponent implements OnInit {
   @ViewChild('canvas',{static:true}) canvas: ElementRef<HTMLCanvasElement>;
   canvasRenderingContext: CanvasRenderingContext2D;
   balls: Array<Ball2D> = new Array;
+  private interval: any;
 
   constructor(private _ballService: BallService) {
 
@@ -21,7 +23,7 @@ export class MainScreenComponent implements OnInit {
     this.canvasRenderingContext = this.canvas.nativeElement.getContext('2d');
     this.canvasRenderingContext.canvas.width = window.innerWidth;
     this.canvasRenderingContext.canvas.height = window.innerHeight;
-    setInterval((): void =>{
+    this.interval = setInterval((): void =>{
       this.updateBalls();
     },20);
   }
@@ -65,4 +67,8 @@ export class MainScreenComponent implements OnInit {
     this.canvasRenderingContext.restore();
   }
 
+  ngOnDestroy(){
+    clearInterval(this.interval);
+    this.canvasRenderingContext.clearRect(0, 0, this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
+  }
 }

@@ -1,5 +1,7 @@
 import { BALL_RADIUS } from "../app.constants";
 import { RandomGeneratorService } from "../services/random-generator.service";
+import { Point } from "./point.model";
+import { Speed } from "./speed.model";
 
 export class Ball2D {
     radius: number ; 
@@ -28,25 +30,6 @@ export class Ball2D {
         let speed = RandomGeneratorService.getRandomSpeed();
         this.speed.vx = speed;
         this.speed.vy =  speed;
-    }
-
-}
-
-export class Point {
-    positionX: number;
-    positionY: number;
-    constructor(x: number, y: number){
-        this.positionX = x;
-        this.positionY = y;
-    }
-}
-
-export class Speed {
-    vx: number;
-    vy: number;
-    constructor(vx: number, vy: number){
-        this.vx = vx;
-        this.vy = vy;
     }
 
 }

@@ -2,7 +2,8 @@ import { not } from '@angular/compiler/src/output/output_ast';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Ball2D, Point } from 'src/app/models/ball2D.model';
+import { Ball2D } from 'src/app/models/ball2D.model';
+import { Point } from 'src/app/models/point.model';
 import { BallService } from 'src/app/services/ball.service';
 
 import { MainScreenComponent } from './main-screen.component';

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BOUNCE, FRICTION, GRAVITY } from '../app.constants';
-import { Ball2D, Point } from '../models/ball2D.model';
+import { Ball2D } from '../models/ball2D.model';
+import { Point } from '../models/point.model';
 
 import { BallService } from './ball.service';
 import { PhysicsCalculationsService } from './physics-calculations.service';
