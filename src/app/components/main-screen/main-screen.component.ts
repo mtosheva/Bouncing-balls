@@ -39,10 +39,7 @@ export class MainScreenComponent implements OnInit {
     this.canvasRenderingContext.clearRect(0, 0, this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
 
     this.balls.forEach(ball=>{
-
-      if(ball.isMoving){
-      
-        
+         
         //if there is more than one ball check for collisions
         if(this.balls.length>1){
           this._ballService.checkCollisionsBetweenBallsAndUpdateVelocity(this.balls);
@@ -51,8 +48,6 @@ export class MainScreenComponent implements OnInit {
         this._ballService.checkCollisionWithWallsAndUpdateBall(ball,this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
 
         this._ballService.updateBallPosition(ball);
-
-      }
 
       this.drawBall(ball);
  });

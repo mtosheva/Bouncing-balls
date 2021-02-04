@@ -9,7 +9,6 @@ export class Ball2D {
     speed: Speed = new Speed(undefined, undefined);
     color: string ;
     angle: number;
-    isMoving: boolean;
 
 
     constructor(point: Point) {
@@ -18,7 +17,6 @@ export class Ball2D {
         this.radius = BALL_RADIUS;
         this.color = RandomGeneratorService.getRandomColor();
         this.angle = RandomGeneratorService.getRandomAngle();
-        this.isMoving = true;
     }
 
     setPoint(point: Point): void {

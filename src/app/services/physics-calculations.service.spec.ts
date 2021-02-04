@@ -138,34 +138,4 @@ describe('PhysicsCalculationsService', () => {
   });
 
 
-  it('isVelocityIncegnificant should return true if velocity is between 0.01 and -0.01', () => {
-    let velocity1 = 0.009;
-    let result1: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity1);
-    expect(result1).toBe(true);
-
-    let velocity2 = -0.009;
-    let result2: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity2);
-    expect(result2).toBe(true);
-  });
-
-  it('isVelocityIncegnificant should return false if velocity is  0.01 or -0.01', () => {
-    let velocity1 = 0.01;
-    let result1: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity1);
-    expect(result1).toBe(false);
-
-    let velocity2 = -0.01;
-    let result2: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity2);
-    expect(result2).toBe(false);
-  });
-
-  it('isVelocityIncegnificant should return false if velocity is greater than  0.01 or smaller than -0.01', () => {
-    let velocity1 = 0.03;
-    let result1: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity1);
-    expect(result1).toBe(false);
-
-    let velocity2 = -0.02;
-    let result2: boolean = PhysicsCalculationsService.isVelocityIncegnificant(velocity2);
-    expect(result2).toBe(false);
-  });
-
 });

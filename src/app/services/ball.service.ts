@@ -40,25 +40,14 @@ export class BallService {
   }
 
   updateBallPosition(ball: Ball2D): void{
-    
+
+
     // add gravity
     ball.speed.vy += GRAVITY
 
     // update ball position
     ball.point.positionX += ball.speed.vx;
     ball.point.positionY += ball.speed.vy;
-
-    // reset insignificant amounts to 0
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vx)) {
-      ball.speed.vx = 0;
-    }
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vy)) {
-      ball.speed.vy = 0;
-    }
-
-    if (ball.speed.vx == 0 && ball.speed.vy == 0) {
-      ball.isMoving = false;
-    }
 
   }
 

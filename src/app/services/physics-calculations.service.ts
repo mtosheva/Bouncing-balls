@@ -38,9 +38,5 @@ export class PhysicsCalculationsService {
     return ball.point.positionX + ball.radius >= width;
   }
 
-  static isVelocityIncegnificant(velocity: number){
-    return velocity < 0.01 && velocity > -0.01;
-  }
-
 
 }

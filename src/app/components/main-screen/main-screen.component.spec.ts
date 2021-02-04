@@ -86,39 +86,12 @@ describe('MainScreenComponent', () => {
   });
 
 
-  it('if ball is not moving should draw ball with old points - no calculation of new point and speed', () => {
-
-    let point: Point = new Point(10,10);
-    let ball1 = new Ball2D(point);
-    ball1.speed.vx = 0;
-    ball1.speed.vy = 0;
-    ball1.isMoving = false;
-    spyOn(component, 'drawBall');
-
-    fixture.detectChanges();
-    component.balls.push(ball1);
-
-    component.updateBalls();
-
-    expect(ballsService.checkCollisionWithWallsAndUpdateBall).not.toHaveBeenCalled();
-    expect(ballsService.checkCollisionsBetweenBallsAndUpdateVelocity).not.toHaveBeenCalled();
-    expect(ballsService.updateBallPosition).not.toHaveBeenCalled();
-
-    expect(component.balls[0].point.positionX).toEqual(10);
-    expect(component.balls[0].point.positionY).toEqual(10);
-    expect(component.balls[0].speed.vx).toEqual(0);
-    expect(component.balls[0].speed.vy).toEqual(0);
-
-    expect(component.drawBall).toHaveBeenCalledTimes(1);
-  });
-
   it('if ball is moving should redraw ball with new points', () => {
 
     let point: Point = new Point(10,10);
     let ball1 = new Ball2D(point);
     ball1.speed.vx = 0;
     ball1.speed.vy = 0;
-    ball1.isMoving = true;
 
     spyOn(component, 'drawBall');
 
@@ -138,7 +111,6 @@ describe('MainScreenComponent', () => {
     let ball1 = new Ball2D(point);
     ball1.speed.vx = 0;
     ball1.speed.vy = 0;
-    ball1.isMoving = true;
 
     component.balls.push(ball1);
     component.updateBalls();
@@ -153,13 +125,11 @@ describe('MainScreenComponent', () => {
     let ball1 = new Ball2D(point1);
     ball1.speed.vx = 0;
     ball1.speed.vy = 0;
-    ball1.isMoving = true;
 
     let point2: Point = new Point(20,20);
     let ball2 = new Ball2D(point2);
     ball1.speed.vx = 0;
     ball1.speed.vy = 0;
-    ball1.isMoving = true;
 
     component.balls.push(ball1);
     component.balls.push(ball2);
