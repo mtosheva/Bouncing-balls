@@ -9,13 +9,13 @@ export class PhysicsCalculationsService {
 
   constructor() { }
 
-  static areCirclesIntersecting(circle1: Ball2D,circle2: Ball2D) : boolean{
-    let circlesDistance = (circle1.point.positionX - circle2.point.positionX)*(circle1.point.positionX - circle2.point.positionX) + (circle1.point.positionY - circle2.point.positionY)*(circle1.point.positionY - circle2.point.positionY)
-    return circlesDistance <= ((circle1.radius+ circle2.radius) * (circle1.radius + circle2.radius));
+  static areBallsIntersecting(ball1: Ball2D,ball2: Ball2D) : boolean{
+    let ballsDistance = (ball1.point.positionX - ball2.point.positionX)*(ball1.point.positionX - ball2.point.positionX) + (ball1.point.positionY - ball2.point.positionY)*(ball1.point.positionY - ball2.point.positionY)
+    return ballsDistance <= ((ball1.radius+ ball2.radius) * (ball1.radius + ball2.radius));
   }
 
-  static calculateDistanceOfCollidingVector(circle1: Ball2D, circle2: Ball2D): number {
-    return Math.sqrt((circle2.point.positionX-circle1.point.positionX)*(circle2.point.positionX-circle1.point.positionX) + (circle2.point.positionY-circle1.point.positionY)*(circle2.point.positionY-circle1.point.positionY));
+  static calculateDistanceOfCollidingVector(ball1: Ball2D, ball2: Ball2D): number {
+    return Math.sqrt((ball2.point.positionX-ball1.point.positionX)*(ball2.point.positionX-ball1.point.positionX) + (ball2.point.positionY-ball1.point.positionY)*(ball2.point.positionY-ball1.point.positionY));
   }
 
   static calculateCollisionSpeed(vCollisionNorm: any, vRelativeVelocity: any) : number{

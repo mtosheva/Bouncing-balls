@@ -17,14 +17,14 @@ describe('PhysicsCalculationsService', () => {
     let ball1 = new Ball2D(point1);
     let point2 = new Point(30,10)
     let ball2 = new Ball2D(point2);
-    let result1: boolean = PhysicsCalculationsService.areCirclesIntersecting(ball1,ball2);
+    let result1: boolean = PhysicsCalculationsService.areBallsIntersecting(ball1,ball2);
     expect(result1).toBe(true);
 
     let point3 = new Point(10,20)
     let ball3 = new Ball2D(point3);
     let point4 = new Point(20,10)
     let ball4 = new Ball2D(point4);
-    let result2: boolean = PhysicsCalculationsService.areCirclesIntersecting(ball3,ball4);
+    let result2: boolean = PhysicsCalculationsService.areBallsIntersecting(ball3,ball4);
     expect(result2).toBe(true);
 
   });
@@ -34,7 +34,7 @@ describe('PhysicsCalculationsService', () => {
     let ball1 = new Ball2D(point1);
     let point2 = new Point(31,10)
     let ball2 = new Ball2D(point2);
-    let result1: boolean = PhysicsCalculationsService.areCirclesIntersecting(ball1,ball2);
+    let result1: boolean = PhysicsCalculationsService.areBallsIntersecting(ball1,ball2);
     expect(result1).toBe(false);
 
     
@@ -42,7 +42,7 @@ describe('PhysicsCalculationsService', () => {
     let ball3 = new Ball2D(point3);
     let point4 = new Point(10,41)
     let ball4 = new Ball2D(point4);
-    let result2: boolean = PhysicsCalculationsService.areCirclesIntersecting(ball3,ball4);
+    let result2: boolean = PhysicsCalculationsService.areBallsIntersecting(ball3,ball4);
     expect(result2).toBe(false);
   });
 

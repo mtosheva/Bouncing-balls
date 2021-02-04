@@ -68,19 +68,19 @@ export class BallService {
 
     for(let i = 0; i < balls.length;i++) {
       for(let j = i+1; j < balls.length;j++) {
-        let circle1 = balls[i];
-        let circle2 = balls[j]
-        let areColliding = PhysicsCalculationsService.areCirclesIntersecting(circle1,circle2);
+        let ball1 = balls[i];
+        let ball2 = balls[j]
+        let areColliding = PhysicsCalculationsService.areBallsIntersecting(ball1,ball2);
         if(areColliding) {
        
           //collision vector
           let vCollision = {
-            x: circle2.point.positionX - circle1.point.positionX, 
-            y: circle2.point.positionY - circle1.point.positionY
+            x: ball2.point.positionX - ball1.point.positionX, 
+            y: ball2.point.positionY - ball1.point.positionY
           };
         
           //calculate the distance of the colliding vector
-          let distance = PhysicsCalculationsService.calculateDistanceOfCollidingVector(circle1,circle2);
+          let distance = PhysicsCalculationsService.calculateDistanceOfCollidingVector(ball1,ball2);
         
           //calculate normized vector
           let vCollisionNorm = {
@@ -90,8 +90,8 @@ export class BallService {
 
           //relative velocity of the objects
           let vRelativeVelocity = { 
-            x: circle1.speed.vx - circle2.speed.vx, 
-            y: circle1.speed.vy - circle2.speed.vy 
+            x: ball1.speed.vx - ball2.speed.vx, 
+            y: ball1.speed.vy - ball2.speed.vy 
           };
 
           //calculate collision speed
@@ -104,10 +104,10 @@ export class BallService {
           }
 
           //if the balls are moving towards each other add the speed in the direction of the collision
-          circle1.speed.vx -= (speed * vCollisionNorm.x);
-          circle1.speed.vy -= (speed * vCollisionNorm.y);
-          circle2.speed.vx += (speed * vCollisionNorm.x);
-          circle2.speed.vy += (speed * vCollisionNorm.y);
+          ball1.speed.vx -= (speed * vCollisionNorm.x);
+          ball1.speed.vy -= (speed * vCollisionNorm.y);
+          ball2.speed.vx += (speed * vCollisionNorm.x);
+          ball2.speed.vy += (speed * vCollisionNorm.y);
         }
 
       }
