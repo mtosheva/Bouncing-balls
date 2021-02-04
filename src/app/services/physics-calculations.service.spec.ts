@@ -3,7 +3,7 @@ import { Ball2D, Point } from '../models/ball2D.model';
 
 import { PhysicsCalculationsService } from './physics-calculations.service';
 
-fdescribe('PhysicsCalculationsService', () => {
+describe('PhysicsCalculationsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

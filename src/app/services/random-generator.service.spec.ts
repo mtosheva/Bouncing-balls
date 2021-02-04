@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { PhysicsCalculationsService } from './physics-calculations.service';
 
 import { RandomGeneratorService } from './random-generator.service';
 
-fdescribe('RandomGeneratorService', () => {
+describe('RandomGeneratorService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({})
 
