@@ -24,19 +24,6 @@ export class MainScreenComponent implements OnInit {
     setInterval((): void =>{
       this.updateBalls();
     },20);
-    this.canvasRenderingContext.save();
-    this.canvasRenderingContext.beginPath();
-    this.canvasRenderingContext.arc(10, 10, 10, 0, Math.PI*2);
-    this.canvasRenderingContext.fillStyle = 'red';    
-    this.canvasRenderingContext.fill();
-    this.canvasRenderingContext.restore();
-
-    this.canvasRenderingContext.save();
-    this.canvasRenderingContext.beginPath();
-    this.canvasRenderingContext.arc(30, 10, 10, 0, Math.PI*2);
-    this.canvasRenderingContext.fillStyle = 'green';    
-    this.canvasRenderingContext.fill();
-    this.canvasRenderingContext.restore();
   }
 
   addBall(clickEvent: MouseEvent) : void {
@@ -53,14 +40,15 @@ export class MainScreenComponent implements OnInit {
 
       if(ball.isMoving){
       
-        this._ballService.checkCollisionsWithWalls(ball,this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
         
         //if there is more than one ball check for collisions
         if(this.balls.length>1){
-          this._ballService.checkCollisions(this.balls);
+          this._ballService.checkCollisionsBetweenBallsAndUpdateVelocity(this.balls);
         }
 
-        this._ballService.updateBall(ball);
+        this._ballService.checkCollisionWithWallsAndUpdateBall(ball,this.canvasRenderingContext.canvas.width, this.canvasRenderingContext.canvas.height);
+
+        this._ballService.updateBallPosition(ball);
 
       }
 

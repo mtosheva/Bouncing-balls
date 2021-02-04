@@ -31,7 +31,7 @@ describe('BallService', () => {
     ball.speed.vy = 5;
     ball.speed.vx = 5;
 
-    service.updateBall(ball);
+    service.updateBallPosition(ball);
 
     expect(ball.speed.vy).toBe(5 + GRAVITY);
   });
@@ -47,14 +47,14 @@ describe('BallService', () => {
     let expectedpositionX = ball.point.positionX + ball.speed.vx;
     let expectedpositionY = ball.point.positionY + ball.speed.vy + GRAVITY;
 
-    service.updateBall(ball);
+    service.updateBallPosition(ball);
 
 
     expect(ball.point.positionY).toBe(expectedpositionY);
     expect(ball.point.positionX).toBe(expectedpositionX);
   });
 
-  it('checkCollisionsWithWalls should update vx,vy and positionY, positionX should not be changed if bottom wall is hit', () => {
+  it('checkCollisionWithWallsAndUpdateBall should update vx,vy and positionY, positionX should not be changed if bottom wall is hit', () => {
     spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(true);
     spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
@@ -74,7 +74,7 @@ describe('BallService', () => {
     let expectedpositionY = 100 - ball.radius;
     let expectedpositionX = ball.point.positionX;
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.checkCollisionWithWallsAndUpdateBall(ball,100,100);
 
     expect(ball.speed.vy).toEqual(expectedVy);
     expect(ball.speed.vx).toEqual(expectedVx);
@@ -84,7 +84,7 @@ describe('BallService', () => {
   });
 
   
-  it('checkCollisionsWithWalls should update vx,vy and positionY, positionX should not be changed if top wall is hit', () => {
+  it('checkCollisionWithWallsAndUpdateBall should update vx,vy and positionY, positionX should not be changed if top wall is hit', () => {
     spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
@@ -104,7 +104,7 @@ describe('BallService', () => {
     let expectedpositionY = ball.radius;
     let expectedpositionX = ball.point.positionX;
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.checkCollisionWithWallsAndUpdateBall(ball,100,100);
 
     expect(ball.speed.vy).toEqual(expectedVy);
     expect(ball.speed.vx).toEqual(expectedVx);
@@ -115,7 +115,7 @@ describe('BallService', () => {
 
 
   
-  it('checkCollisionsWithWalls should update vx and positionX, positionY and vy should not be changed if left wall is hit', () => {
+  it('checkCollisionWithWallsAndUpdateBall should update vx and positionX, positionY and vy should not be changed if left wall is hit', () => {
     spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(true);
     spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
@@ -136,7 +136,7 @@ describe('BallService', () => {
     let expectedpositionX = ball.radius;
 
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.checkCollisionWithWallsAndUpdateBall(ball,100,100);
 
     expect(ball.speed.vy).toEqual(expectedVy);
     expect(ball.speed.vx).toEqual(expectedVx);
@@ -145,7 +145,7 @@ describe('BallService', () => {
 
   });
 
-  it('checkCollisionsWithWalls should update vx and positionX, positionY and vy should not be changed if right wall is hit', () => {
+  it('checkCollisionWithWallsAndUpdateBall should update vx and positionX, positionY and vy should not be changed if right wall is hit', () => {
     spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(true);
@@ -166,7 +166,7 @@ describe('BallService', () => {
     let expectedpositionX = 100 - ball.radius;
  
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.checkCollisionWithWallsAndUpdateBall(ball,100,100);
 
     expect(ball.speed.vy).toEqual(expectedVy);
     expect(ball.speed.vx).toEqual(expectedVx);
@@ -175,7 +175,7 @@ describe('BallService', () => {
 
   });
 
-  it('checkCollisionsWithWalls should update vx and vy if velocity of is incegnificant', () => {
+  it('updateBallPosition should update vx and vy if velocity of is incegnificant', () => {
     spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
     spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
@@ -187,7 +187,7 @@ describe('BallService', () => {
     let ball = new Ball2D(point);
 
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.updateBallPosition(ball);
     let expectedvx = 0;
     let expectedvy = 0;
 
@@ -196,11 +196,7 @@ describe('BallService', () => {
 
   });
 
-  it('checkCollisionsWithWalls should not update vx and vy if velocity of is incegnificant returns false', () => {
-    spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isTopWallHit').and.returnValue(false);
+  it('updateBallPosition should not update vx and should add gravity to vy if velocity is not incegnificant ', () => {
     spyOn(PhysicsCalculationsService, 'isVelocityIncegnificant').and.returnValue(false);
 
     // point values are irelevant for the test
@@ -208,12 +204,12 @@ describe('BallService', () => {
     let ball = new Ball2D(point);
 
     ball.speed.vx = 1.5;
-    ball.speed.vy = 1.5
+    ball.speed.vy = 1.5 + GRAVITY;
 
-    let expectedvx = ball.speed.vy;
-    let expectedvy = ball.speed.vy;
+    let expectedvx = ball.speed.vx;
+    let expectedvy = ball.speed.vy + GRAVITY;
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.updateBallPosition(ball);
 
 
     expect(ball.speed.vx).toEqual(expectedvx);
@@ -221,33 +217,23 @@ describe('BallService', () => {
 
   });
 
-  it('checkCollisionsWithWalls should set isMoving property to false if vx and vy are 0', () => {
-    spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isTopWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isVelocityIncegnificant').and.returnValue(false);
+  it('updateBallPosition should set isMoving property to false if vx and vy are 0', () => {
+    spyOn(PhysicsCalculationsService, 'isVelocityIncegnificant').and.returnValue(true);
 
     // point values are irelevant for the test
     let point = new Point(10,10) 
     let ball = new Ball2D(point);
     
+    service.updateBallPosition(ball);
+
     ball.speed.vx = 0;
     ball.speed.vy = 0;
-
-
-    service.checkCollisionsWithWalls(ball,100,100);
-
 
     expect(ball.isMoving).toEqual(false);
 
   });
   
-  it('checkCollisionsWithWalls should not set isMoving property to false if vx and vy are not 0', () => {
-    spyOn(PhysicsCalculationsService, 'isBottomWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isLeftWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isRightWallHit').and.returnValue(false);
-    spyOn(PhysicsCalculationsService, 'isTopWallHit').and.returnValue(false);
+  it('updateBallPosition should not set isMoving property to false if vx and vy are not 0', () => {
     spyOn(PhysicsCalculationsService, 'isVelocityIncegnificant').and.returnValue(false);
 
     // point values are irelevant for the test
@@ -257,7 +243,7 @@ describe('BallService', () => {
     ball.speed.vx = 0.5;
     ball.speed.vy = 0.5;
 
-    service.checkCollisionsWithWalls(ball,100,100);
+    service.updateBallPosition(ball);
 
     expect(ball.isMoving).toEqual(true);
 

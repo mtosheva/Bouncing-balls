@@ -10,7 +10,7 @@ export class BallService {
 
   constructor() {}
 
-  checkCollisionsWithWalls(ball: Ball2D, width: number, height: number) : void {
+  checkCollisionWithWallsAndUpdateBall(ball: Ball2D, width: number, height: number) : void {
    
     //bottom wall
     if (PhysicsCalculationsService.isBottomWallHit(ball, height)) {
@@ -37,21 +37,10 @@ export class BallService {
       ball.point.positionX = width - ball.radius;
     }
 
-    // reset insignificant amounts to 0
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vx)) {
-      ball.speed.vx = 0;
-    }
-    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vy)) {
-      ball.speed.vy = 0;
-    }
-
-    if(ball.speed.vx == 0 && ball.speed.vy ==0) {
-      ball.isMoving = false;
-    }
 
   }
 
-  updateBall(ball: Ball2D): void{
+  updateBallPosition(ball: Ball2D): void{
     
     // add gravity
     ball.speed.vy += GRAVITY
@@ -60,11 +49,23 @@ export class BallService {
     ball.point.positionX += ball.speed.vx;
     ball.point.positionY += ball.speed.vy;
 
+    // reset insignificant amounts to 0
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vx)) {
+      ball.speed.vx = 0;
+    }
+    if (PhysicsCalculationsService.isVelocityIncegnificant(ball.speed.vy)) {
+      ball.speed.vy = 0;
+    }
+
+    if (ball.speed.vx == 0 && ball.speed.vy == 0) {
+      ball.isMoving = false;
+    }
+
   }
 
   //collisions between balls are recalculated for each ball;
   //this functions is heavy, if there are too many balls the screen will slow down it should be optimized for real use
-  checkCollisions(balls: Array<Ball2D>){
+  checkCollisionsBetweenBallsAndUpdateVelocity(balls: Array<Ball2D>){
 
     for(let i = 0; i < balls.length;i++) {
       for(let j = i+1; j < balls.length;j++) {

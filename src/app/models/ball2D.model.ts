@@ -25,8 +25,9 @@ export class Ball2D {
     }
 
     setSpeed(): void {
-        this.speed.vx = RandomGeneratorService.getRandomSpeed();
-        this.speed.vy =  RandomGeneratorService.getRandomSpeed()
+        let speed = RandomGeneratorService.getRandomSpeed();
+        this.speed.vx = speed;
+        this.speed.vy =  speed;
     }
 
 }

@@ -19,15 +19,15 @@ describe('RandomGeneratorService', () => {
   });
 
   it('getRandomSpeed should return 2 if math.random() return 0.6', () => {
-    //should return 2 if math.random() return 0.6
+    //should return 8 if math.random() return 0.6
     spyOn(Math, 'random').and.returnValue(0.6);
     let speed = RandomGeneratorService.getRandomSpeed();
-    expect(speed).toEqual(2);
+    expect(speed).toEqual(8);
   });
 
   it('getRandomSpeed should return between 10 and -10', () => {
     let speed = RandomGeneratorService.getRandomSpeed();
-    expect(speed).not.toBeGreaterThan(10);
+    expect(speed).not.toBeGreaterThan(20);
     expect(speed).not.toBeLessThan(-10);
   });
 

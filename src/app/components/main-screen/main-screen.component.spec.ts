@@ -13,9 +13,9 @@ describe('MainScreenComponent', () => {
   let ballsService: BallService;
 
   const mockBallService = {
-    checkCollisions: () => void {},
-    checkCollisionsWithWalls: () => void {},
-    updateBall: () => void {},
+    checkCollisionsBetweenBallsAndUpdateVelocity: () => void {},
+    checkCollisionWithWallsAndUpdateBall: () => void {},
+    updateBallPosition: () => void {},
   }
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,9 +33,9 @@ describe('MainScreenComponent', () => {
     jasmine.clock().install();
     ballsService = TestBed.get(BallService);
 
-    spyOn(ballsService, 'checkCollisionsWithWalls').and.callFake(mockBallService.checkCollisionsWithWalls)
-    spyOn(ballsService, 'updateBall').and.callFake(mockBallService.updateBall)
-    spyOn(ballsService, 'checkCollisions').and.callFake(mockBallService.checkCollisions)
+    spyOn(ballsService, 'checkCollisionWithWallsAndUpdateBall').and.callFake(mockBallService.checkCollisionWithWallsAndUpdateBall)
+    spyOn(ballsService, 'updateBallPosition').and.callFake(mockBallService.updateBallPosition)
+    spyOn(ballsService, 'checkCollisionsBetweenBallsAndUpdateVelocity').and.callFake(mockBallService.checkCollisionsBetweenBallsAndUpdateVelocity)
   });
 
   afterEach(function () {
@@ -99,9 +99,9 @@ describe('MainScreenComponent', () => {
 
     component.updateBalls();
 
-    expect(ballsService.checkCollisionsWithWalls).not.toHaveBeenCalled();
-    expect(ballsService.checkCollisions).not.toHaveBeenCalled();
-    expect(ballsService.updateBall).not.toHaveBeenCalled();
+    expect(ballsService.checkCollisionWithWallsAndUpdateBall).not.toHaveBeenCalled();
+    expect(ballsService.checkCollisionsBetweenBallsAndUpdateVelocity).not.toHaveBeenCalled();
+    expect(ballsService.updateBallPosition).not.toHaveBeenCalled();
 
     expect(component.balls[0].point.positionX).toEqual(10);
     expect(component.balls[0].point.positionY).toEqual(10);
@@ -125,13 +125,13 @@ describe('MainScreenComponent', () => {
     component.updateBalls();
     fixture.detectChanges();
 
-    expect(ballsService.checkCollisionsWithWalls).toHaveBeenCalled();
-    expect(ballsService.updateBall).toHaveBeenCalled();
+    expect(ballsService.checkCollisionWithWallsAndUpdateBall).toHaveBeenCalled();
+    expect(ballsService.updateBallPosition).toHaveBeenCalled();
 
     expect(component.drawBall).toHaveBeenCalledTimes(1);
   });
 
-  it('checkCollisions should not be called if only one ball is in the canvas', () => {
+  it('checkCollisionsBetweenBallsAndUpdateVelocity should not be called if only one ball is in the canvas', () => {
 
     let point: Point = new Point(10,10);
     let ball1 = new Ball2D(point);
@@ -142,11 +142,11 @@ describe('MainScreenComponent', () => {
     component.balls.push(ball1);
     component.updateBalls();
 
-    expect(ballsService.checkCollisions).not.toHaveBeenCalled();
+    expect(ballsService.checkCollisionsBetweenBallsAndUpdateVelocity).not.toHaveBeenCalled();
 
   });
 
-  it('checkCollisions should be called if more than one ball is in the canvas', () => {
+  it('checkCollisionsBetweenBallsAndUpdateVelocity should be called if more than one ball is in the canvas', () => {
 
     let point1: Point = new Point(10,10);
     let ball1 = new Ball2D(point1);
@@ -165,7 +165,7 @@ describe('MainScreenComponent', () => {
 
     component.updateBalls();
 
-    expect(ballsService.checkCollisions).toHaveBeenCalled();
+    expect(ballsService.checkCollisionsBetweenBallsAndUpdateVelocity).toHaveBeenCalled();
 
   });
 
